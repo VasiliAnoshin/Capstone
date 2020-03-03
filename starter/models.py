@@ -1,3 +1,4 @@
+from init import db
 
 class Movie(db.Model):
      __tablename__ = 'Movie'
