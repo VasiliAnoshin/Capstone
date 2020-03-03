@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 
 #  Movies
@@ -24,6 +25,7 @@ def create_app(test_config=None):
   return app
 
 APP = create_app()
+migrate = Migrate(app,db)
 
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', port=8080, debug=True)
