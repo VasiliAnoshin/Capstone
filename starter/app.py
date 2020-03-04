@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from init import create_app
 from models import *
+import sys
 
 #----------------------------------------------------------------------------#
 # App Config.
@@ -28,6 +29,7 @@ def get_movies():
 
 #  Actors
 #  ----------------------------------------------------------------
+
 @app.route('/actors')
 def get_actors():
   query = Actors.query.all()
@@ -37,6 +39,32 @@ def get_actors():
             'success': True
   })
 
+@app.route('/actors/create', methods=['POST'])
+def create_actors():
+  try:
+    print("Enter inside function")
+    req = request.get_json()
+    name=req['name']
+    print(name)
+    # print(req['name'])
+
+    # print(request.form)
+    # name = request.form.get('name')
+    # print(name)
+    # gender = request.form.get('gender')
+    # age = request.form.get('age')
+    # actor = Actors(name=name, gender=gender,age=age)
+    # db.session.add(actor)
+    # db.session.commit()
+  except:
+    db.session.rollback()
+    print(sys.exc_info())  
+  finally:
+    db.session.close()
+  return{
+    "success":True,
+    "id": "tmpDir na dir"
+  }
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
