@@ -43,28 +43,19 @@ def get_actors():
 def create_actors():
   try:
     print("Enter inside function")
-    req = request.get_json()
+    req=request.get_json()
     name=req['name']
-    print(name)
-    # print(req['name'])
-
-    # print(request.form)
-    # name = request.form.get('name')
-    # print(name)
-    # gender = request.form.get('gender')
-    # age = request.form.get('age')
-    # actor = Actors(name=name, gender=gender,age=age)
-    # db.session.add(actor)
-    # db.session.commit()
+    gender=req['gender']
+    age=req['age']
+    actor = Actors(name=name, gender=gender,age=age)
+    db.session.add(actor)
+    db.session.commit()
   except:
     db.session.rollback()
-    print(sys.exc_info())  
-  finally:
-    db.session.close()
-  return{
-    "success":True,
-    "id": "tmpDir na dir"
-  }
+    print(sys.exc_info())
+  return jsonify({
+        "success":True
+  })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
