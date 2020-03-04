@@ -26,3 +26,16 @@ class Actors(db.Model):
     name = db.Column(db.String)
     gender = db.Column(db.String(10))
     age = db.Column(db.Integer)
+
+    def __init__(self, name, gender, age):
+        self.name = name
+        self.gender = gender
+        self.age = age
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'gender': self.gender,
+            'age': self.age
+        }
