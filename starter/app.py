@@ -27,13 +27,39 @@ def get_movies():
             'success': True
   })
 
+@app.route('/movies/create', methods=['POST'])
+def create_movie():
+  try:
+    req=request.get_json()
+    movie = Movie(title=req['title'], release_date=req['release_date'])
+    db.session.add(movie)
+    db.session.commit()
+    return jsonify({
+          "success":True
+      })
+  except:
+    print(sys.exc_info())
+    db.session.rollback()
+    abort(404)
+
+@app.route('/movies/<int:id>', methods=['DELETE'])
+def delete_movie(id):
+    try:
+      movie = Movie.query.filter(Movie.id==id).one_or_none()
+      db.session.delete(movie)
+      db.session.commit()
+      return jsonify({
+          'success':True
+      })
+    except:
+      abort(404)
+
 #  Actors
 #  ----------------------------------------------------------------
-
 @app.route('/actors')
 def get_actors():
-  query = Actors.query.all()
-
+  query=Actors.query.all()
+  
   return jsonify({
             'actors': format_data(query),
             'success': True
@@ -42,20 +68,63 @@ def get_actors():
 @app.route('/actors/create', methods=['POST'])
 def create_actors():
   try:
-    print("Enter inside function")
     req=request.get_json()
-    name=req['name']
-    gender=req['gender']
-    age=req['age']
-    actor = Actors(name=name, gender=gender,age=age)
+    actor = Actors(name=req['name'], gender=req['gender'],age=req['age'])
     db.session.add(actor)
     db.session.commit()
+    return jsonify({
+          "success":True
+      })
   except:
     db.session.rollback()
-    print(sys.exc_info())
-  return jsonify({
-        "success":True
-  })
+    abort(404)
+
+@app.route('/actors/<int:id>', methods=['DELETE'])
+def delete_actor(id):
+    try:
+      actor = Actors.query.filter(Actors.id==id).one_or_none()
+      db.session.delete(actor)
+      db.session.commit()
+      return jsonify({
+          'success':True
+      })
+    except:
+      abort(404)
+
+#  Error Wrappers
+#  ----------------------------------------------------------------
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+      "success": False,
+      "error": 404,
+      "message":"resourse not found"
+  }), 404
+
+@app.errorhandler(422)
+def unprocessable(error):
+    return jsonify({
+      "success": False,
+      "error": 422,
+      "message":"unprocessable"
+  }), 422
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    return jsonify({
+      'code': 405,
+      'success': False,
+      'message': 'method not allowed'
+  }), 405
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return jsonify({
+      'code': 500,
+      'success': False,
+      'message': 'server error'
+  }), 500  
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
