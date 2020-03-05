@@ -108,9 +108,27 @@ def delete_actor(id):
     except:
       abort(404)
 
+@app.route('/actors/<int:id>', methods=['PATCH'])
+def update_actor(id):
+  try:
+   req = request.get_json()
+   actor = Actors.query.filter(Actors.id==id).one_or_none()
+   if('name' in req):
+    actor.name = req['name']
+   if('gender' in req):
+    actor.gender = req['gender']
+   if('age' in req):
+    actor.age = req['age']
+    
+   db.session.commit()
+   return jsonify({
+      'success':True
+    })
+  except:
+    abort(404)
+
 #  Error Wrappers
 #  ----------------------------------------------------------------
-
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({
