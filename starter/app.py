@@ -54,6 +54,23 @@ def delete_movie(id):
     except:
       abort(404)
 
+@app.route('/movies/<int:id>', methods=['PATCH'])
+def update_movie(id):
+  try:
+   req = request.get_json()
+   movie = Movie.query.filter(Movie.id==id).one_or_none()
+   if('title' in req):
+    movie.title = req['title']
+   if('release_date' in req):
+    movie.release_date = req['release_date']
+    
+   db.session.commit()
+   return jsonify({
+      'success':True
+    })
+  except:
+    abort(404)
+
 #  Actors
 #  ----------------------------------------------------------------
 @app.route('/actors')
