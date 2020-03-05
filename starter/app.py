@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from init import create_app
 from models import *
+from auth import AuthError, requires_auth
 import sys
 
 #----------------------------------------------------------------------------#
@@ -13,22 +14,24 @@ import sys
 app = create_app()
 migrate = Migrate(app,db)
 
-def format_data(data):
+def data_format(data):
   return [d.format() for d in data]
 
 #  Movies
 #  ----------------------------------------------------------------
 @app.route('/movies')
-def get_movies():
+@requires_auth('get:movies')
+def get_movies(payload):
   query = Movie.query.all()
 
   return jsonify({
-            'movies': format_data(query),
+            'movies': data_format(query),
             'success': True
   })
 
 @app.route('/movies/create', methods=['POST'])
-def create_movie():
+@requires_auth('post:movies')
+def create_movie(payload):
   try:
     req=request.get_json()
     movie = Movie(title=req['title'], release_date=req['release_date'])
@@ -43,7 +46,8 @@ def create_movie():
     abort(404)
 
 @app.route('/movies/<int:id>', methods=['DELETE'])
-def delete_movie(id):
+@requires_auth('delete:movie')
+def delete_movie(payload,id):
     try:
       movie = Movie.query.filter(Movie.id==id).one_or_none()
       db.session.delete(movie)
@@ -55,7 +59,8 @@ def delete_movie(id):
       abort(404)
 
 @app.route('/movies/<int:id>', methods=['PATCH'])
-def update_movie(id):
+@requires_auth('patch:movie')
+def update_movie(payload,id):
   try:
    req = request.get_json()
    movie = Movie.query.filter(Movie.id==id).one_or_none()
@@ -74,16 +79,18 @@ def update_movie(id):
 #  Actors
 #  ----------------------------------------------------------------
 @app.route('/actors')
-def get_actors():
+@requires_auth('get:actors')
+def get_actors(payload):
   query=Actors.query.all()
   
   return jsonify({
-            'actors': format_data(query),
+            'actors': data_format(query),
             'success': True
   })
 
 @app.route('/actors/create', methods=['POST'])
-def create_actors():
+@requires_auth('post:actors')
+def create_actors(payload):
   try:
     req=request.get_json()
     actor = Actors(name=req['name'], gender=req['gender'],age=req['age'])
@@ -97,7 +104,8 @@ def create_actors():
     abort(404)
 
 @app.route('/actors/<int:id>', methods=['DELETE'])
-def delete_actor(id):
+@requires_auth('delete:actor')
+def delete_actor(payload,id):
     try:
       actor = Actors.query.filter(Actors.id==id).one_or_none()
       db.session.delete(actor)
@@ -109,7 +117,8 @@ def delete_actor(id):
       abort(404)
 
 @app.route('/actors/<int:id>', methods=['PATCH'])
-def update_actor(id):
+@requires_auth('patch:actor')
+def update_actor(payload,id):
   try:
    req = request.get_json()
    actor = Actors.query.filter(Actors.id==id).one_or_none()
@@ -160,6 +169,14 @@ def internal_server_error(error):
       'success': False,
       'message': 'server error'
   }), 500  
+
+@app.errorhandler(AuthError)
+def internal_auth_error(error):
+    return jsonify({
+       'error': error.error,
+       'success': False,
+       'message': error.status_code
+     }), error.status_code
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
