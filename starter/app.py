@@ -62,17 +62,17 @@ def delete_movie(payload,id):
 @requires_auth('patch:movie')
 def update_movie(payload,id):
   try:
-   req = request.get_json()
-   movie = Movie.query.filter(Movie.id==id).one_or_none()
-   if('title' in req):
-    movie.title = req['title']
-   if('release_date' in req):
-    movie.release_date = req['release_date']
-    
-   db.session.commit()
-   return jsonify({
-      'success':True
-    })
+    req = request.get_json()
+    movie = Movie.query.filter(Movie.id==id).one_or_none()
+    if('title' in req):
+      movie.title = req['title']
+    if('release_date' in req):
+      movie.release_date = req['release_date']
+      
+    db.session.commit()
+    return jsonify({
+        'success':True
+      })
   except:
     abort(404)
 
@@ -82,7 +82,7 @@ def update_movie(payload,id):
 @requires_auth('get:actors')
 def get_actors(payload):
   query=Actors.query.all()
-  
+    
   return jsonify({
             'actors': data_format(query),
             'success': True
@@ -120,19 +120,19 @@ def delete_actor(payload,id):
 @requires_auth('patch:actor')
 def update_actor(payload,id):
   try:
-   req = request.get_json()
-   actor = Actors.query.filter(Actors.id==id).one_or_none()
-   if('name' in req):
-    actor.name = req['name']
-   if('gender' in req):
-    actor.gender = req['gender']
-   if('age' in req):
-    actor.age = req['age']
-    
-   db.session.commit()
-   return jsonify({
-      'success':True
-    })
+    req = request.get_json()
+    actor = Actors.query.filter(Actors.id==id).one_or_none()
+    if('name' in req):
+      actor.name = req['name']
+    if('gender' in req):
+      actor.gender = req['gender']
+    if('age' in req):
+      actor.age = req['age']
+      
+    db.session.commit()
+    return jsonify({
+        'success':True
+      })
   except:
     abort(404)
 
@@ -168,15 +168,16 @@ def internal_server_error(error):
       'code': 500,
       'success': False,
       'message': 'server error'
-  }), 500  
+    }), 500  
 
 @app.errorhandler(AuthError)
 def internal_auth_error(error):
     return jsonify({
-       'error': error.error,
-       'success': False,
-       'message': error.status_code
-     }), error.status_code
+      'error': error.error,
+      'success': False,
+      'message': error.status_code
+    }), error.status_code
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+  #app.run()
+  app.run(host='0.0.0.0', port=8080, debug=True)
