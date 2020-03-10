@@ -6,7 +6,8 @@ from app import create_app
 from models import Movie,Actors,setup_db
 import json
 
-Casting_Director_JWT = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5VUXdRa0l3UkVFM1JEWXlNalZGUVVRNFFrUkJOa1UwTXpVNE56azJOekJGTlVORE5ERTFSZyJ9.eyJpc3MiOiJodHRwczovL2ZzYmVuZnJhbmtsaW4uYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTA3OTQ1Mjg2NDA2MTkzOTU3MTE1IiwiYXVkIjpbIkNhcHN0b25lIiwiaHR0cHM6Ly9mc2JlbmZyYW5rbGluLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE1ODM4MjQ4ODQsImV4cCI6MTU4MzkxMTI4NCwiYXpwIjoibExhcEM1TFE1VW02ZnlHeExTOHF3RE9Cd1FSTXJnM1ciLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvcnMiXX0.Fx4K6AqHR9ZyphVd5zcWzLH3khCAjT8Peiqg4T0LumJftqVo0F2ZCyQDQhVBIOKrRsklOpU0KtQ0blBE4GQ2HU_L0ifqvvbsT2TS7lcqmmgi-IfUz1-wHseRit_2mz3X7H_2Rm6bmYrHEgYYK3DSVqZVMMpCR7_AdF2X7zPyivukDe1lRmpc4Ka2SWRrJJanvVWCjrI3D-lJWfcyoMxwJ55rA-K10puTZJJdJCliicOoaGbbRJcCt9k6SnNdvyXXACYPmFXxiLRvErOJCmGFylUq7VAK5kYBaYDjLtYWjTCJLJB4Eou-XNnkE2Gt8NUdoKFafLram4w2rilEK0mAsA"
+Casting_Director_JWT = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5VUXdRa0l3UkVFM1JEWXlNalZGUVVRNFFrUkJOa1UwTXpVNE56azJOekJGTlVORE5ERTFSZyJ9.eyJpc3MiOiJodHRwczovL2ZzYmVuZnJhbmtsaW4uYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTA3OTQ1Mjg2NDA2MTkzOTU3MTE1IiwiYXVkIjpbIkNhcHN0b25lIiwiaHR0cHM6Ly9mc2JlbmZyYW5rbGluLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE1ODM4NjkzNTMsImV4cCI6MTU4Mzk1NTc1MywiYXpwIjoibExhcEM1TFE1VW02ZnlHeExTOHF3RE9Cd1FSTXJnM1ciLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvcnMiXX0.Habzpqq8etWWaaWW76cc8sBtS881QYWcj7qJSlmVYCqfCfY6hS1qgn4_lZGy4O3zeMTM9QKlbdcrYwSi8eJ9cHG62-p75wdyRRyN7ZTRdZJYN1IgtlF3Bm4Pzt3g7cAPATNgLNZwAWs0_j1ZB0G-JIDmpiEddP_SPpyTNmNcNVxjJkBTjvhD3tQKIEXJpD-QNJxVFctHRPpg5_imP0XGoFTgMQ37_jNhtSsntM1qo0E1RnGA-40myq7IVnvDaXAzG3nZ70zsjU303cA-fNr9plla8PnNIVpsHC3GQVxw6UykV37-k7iHoaTC5rS_TiJSIb_XvtqlsVMKn_lETHnPjA"
+Executive_Producer_JWT = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5VUXdRa0l3UkVFM1JEWXlNalZGUVVRNFFrUkJOa1UwTXpVNE56azJOekJGTlVORE5ERTFSZyJ9.eyJpc3MiOiJodHRwczovL2ZzYmVuZnJhbmtsaW4uYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTA3OTQ1Mjg2NDA2MTkzOTU3MTE1IiwiYXVkIjpbIkNhcHN0b25lIiwiaHR0cHM6Ly9mc2JlbmZyYW5rbGluLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE1ODM4Njk5MTEsImV4cCI6MTU4Mzk1NjMxMSwiYXpwIjoibExhcEM1TFE1VW02ZnlHeExTOHF3RE9Cd1FSTXJnM1ciLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdG9yIiwiZGVsZXRlOm1vdmllIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvcnMiLCJwb3N0Om1vdmllcyJdfQ.Ta8W-WD97lusKiJMpQnhLGB-XH23tZtclvTBHaddQgx2wLk1s9OQRLCcXjL3EHPnzWj4NVuP4du6NSszSGsIYXCyBJzGYQptukofKpYMU3Z3DYPUv_xSREUDGV_ro8nIfkOzkpdc32ztmDo1Ii_7mLmMqk2YIkLj-dO_v5nxglitGqqUj_pV7d2tkCsHI4YtCVH_cWNAn13x8jt0LLbWGFfsCxUcYfJg4umOaVap1eozyM8cxupT52fWZy0soKWC0sq-kBnGuTCxiN42-WzkXENqRgk7XOZBtoRQdZ424QlwMvCDdw45DkwoExDN9pKaPCE1xDWrWCq4I6kKmx97lg"
 
 class CapstoneTestCase(unittest.TestCase):
     def setUp(self):
@@ -66,8 +67,86 @@ class CapstoneTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 401)
 
+    def test_create_actors(self):
+        res = self.client.post(
+            '/actors/create',
+            json={
+                "name": "Stiven Siegal",
+                "gender": "male",
+                "age": 51
+            },
+            headers={
+                "Authorization": f"Bearer {Casting_Director_JWT}"
+            }
+        )
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+
+    def test_patch_actors_age(self):
+        res = self.client.patch(
+            '/actors/1',
+            json={
+                "age": "18"
+            },
+            headers={
+                "Authorization": f"Bearer {Casting_Director_JWT}"
+            }
+        )
+        self.assertEqual(res.status_code, 200)
+
+    def test_patch_actors(self):
+        res = self.client.patch(
+            '/actors/1',
+            json={
+                "name": "Brigit Bardo"
+            },
+            headers={
+                "Authorization": f"Bearer {Casting_Director_JWT}"
+            }
+        )
+        self.assertEqual(res.status_code, 200)
+
+    def test_delete_movie_without_delete_permissions(self):
+        res = self.client.delete(
+            '/movies/2',
+            headers={
+                "Authorization": f"Bearer {Casting_Director_JWT}"
+            }
+        )
+        self.assertEqual(res.status_code, 401)
+
+    def test_delete_actors(self):
+        res = self.client.delete(
+            '/actors/1',
+            headers={
+                "Authorization": f"Bearer {Casting_Director_JWT}"
+            }
+        )
+        self.assertEqual(res.status_code, 200)
     
-        
+    def test_create_movie(self):
+        res = self.client.post(
+            '/movies/create',
+            json={
+                "title": "James Bond",
+                "release_date": "2020-01-01"
+            },
+            headers={
+                "Authorization": f"Bearer {Executive_Producer_JWT}"
+            }
+        )
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+
+    def test_delete_movie_with_role_permission(self):
+        res = self.client.delete(
+            '/movies/1',
+            headers={
+                "Authorization": f"Bearer {Executive_Producer_JWT}"
+            }
+        )
+        self.assertEqual(res.status_code, 200)
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
