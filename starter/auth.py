@@ -4,12 +4,12 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-
 AUTH0_DOMAIN = 'fsbenfranklin.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'Capstone'
 
 # AuthError Exception
+
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -42,6 +42,7 @@ def get_token_auth_header():
     token = header_parts[1]
     return token
 
+
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
         raise AuthError({
@@ -54,6 +55,7 @@ def check_permissions(permission, payload):
             'description': 'Permission not found.'
         }, 401)
     return True
+
 
 def verify_decode_jwt(token):
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
@@ -107,6 +109,7 @@ def verify_decode_jwt(token):
                 'code': 'invalid_header',
                 'description': 'Unable to find the appropriate key.'
             }, 401)
+
 
 def requires_auth(permission=''):
     def requires_auth_decorator(f):
