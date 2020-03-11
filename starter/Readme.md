@@ -50,8 +50,26 @@ Setting the FLASK_ENV variable to development will detect file changes and resta
 - All permissions a Casting Director has and…
 - Add or delete a movie from the database
 
+## API reference
+```bash 
+GET 
+```
+- /actors (get:movies) permissions required
+- /movies (get:movies) permissions required
+```bash 
+POST
+```
+- /movies/create (post:movies) permission required
+- /actors/create (post:actors) permission required
+PATCH
+-
+-
+DELETE
 
 # Testing
-- dropdb Capstone
-- createdb Capstone
-- python test_app.py
+Testing with unittest library
+```bash
+dropdb Capstone
+createdb Capstone
+python test_app.py
+```
