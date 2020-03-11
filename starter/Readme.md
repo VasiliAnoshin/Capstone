@@ -66,7 +66,11 @@ PATCH
 - /movies/<int:id> (patch:movie) permission required
 - /actors/<int:id> (patch:actor) permission required
 ```
-
+```bash
+DELETE
+- /actors/<int:id> (delete:actor) permission required
+- /movies/<int:id> (delete:movie) permission required
+```
 # Testing
 Testing with unittest library
 ```bash
