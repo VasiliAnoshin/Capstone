@@ -53,18 +53,19 @@ Setting the FLASK_ENV variable to development will detect file changes and resta
 ## API reference
 ```bash 
 GET 
-```
 - /actors (get:movies) permissions required
 - /movies (get:movies) permissions required
+```
 ```bash 
 POST
-```
 - /movies/create (post:movies) permission required
 - /actors/create (post:actors) permission required
+```
+```bash
 PATCH
--
--
-DELETE
+- /movies/<int:id> (patch:movie) permission required
+- /actors/<int:id> (patch:actor) permission required
+```
 
 # Testing
 Testing with unittest library
