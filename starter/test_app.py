@@ -48,19 +48,18 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test4_get_movies(self):
-        # print(os.environ.get('CASTING_DIRECTOR_JWT'))
-        # env_var = os.environ 
-        # pprint.pprint(dict(env_var), width = 1)
         if 'CASTING_DIRECTOR_JWT' in os.environ:
             res = self.client.get(
                 '/movies',
                 headers={
-                    "Authorization": f"Bearer {os.getenv('CASTING_DIRECTOR_JWT')}"
+                    "Authorization": f"Bearer {
+                        os.getenv('CASTING_DIRECTOR_JWT')}"
                 }
             )
             self.assertEqual(res.status_code, 200)
         else:
-            raise Exception('Cat_Director was not provided in evironement variables')
+            raise Exception(
+                'Cat_Director was not provided in evironement variables')
 
     def test5_create_movies_without_permissions(self):
         res = self.client.post(
@@ -75,7 +74,7 @@ class CapstoneTestCase(unittest.TestCase):
         )
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 401)
-    
+
     def test13_create_actors(self):
         res = self.client.post(
             '/actors/create',
@@ -85,7 +84,8 @@ class CapstoneTestCase(unittest.TestCase):
                 "age": 43
             },
             headers={
-                "Authorization": f"Bearer {os.getenv('CASTING_DIRECTOR_JWT')}"
+                "Authorization": f"Bearer {
+                    os.getenv('CASTING_DIRECTOR_JWT')}"
             }
         )
         data = json.loads(res.data)
@@ -108,7 +108,6 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
 
-
     def test8_patch_actors(self):
         res = self.client.patch(
             '/actors/1',
@@ -129,7 +128,8 @@ class CapstoneTestCase(unittest.TestCase):
                 "release_date": "2020-01-01"
             },
             headers={
-                "Authorization": f"Bearer {os.getenv('EXECUTIVE_PRODUCER_JWT')}"
+                "Authorization": f"Bearer {
+                    os.getenv('EXECUTIVE_PRODUCER_JWT')}"
             }
         )
         data = json.loads(res.data)
@@ -155,7 +155,7 @@ class CapstoneTestCase(unittest.TestCase):
             }
         )
         self.assertEqual(res.status_code, 401)
-    
+
     def test7_patch_actors_age(self):
         res = self.client.patch(
             '/actors/2',
@@ -167,16 +167,17 @@ class CapstoneTestCase(unittest.TestCase):
             }
         )
         self.assertEqual(res.status_code, 200)
-    
+
     def test_delete_actors(self):
         res = self.client.delete(
             '/actors/1',
             headers={
-                "Authorization": f"Bearer {os.getenv('EXECUTIVE_PRODUCER_JWT')}"
+                "Authorization": f"Bearer {
+                    os.getenv('EXECUTIVE_PRODUCER_JWT')}"
             }
         )
         self.assertEqual(res.status_code, 200)
- 
+
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()
