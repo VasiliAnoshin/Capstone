@@ -15,7 +15,6 @@ class CapstoneTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         env_path = Path('.') / 'setup.sh'
         load_dotenv(dotenv_path=env_path)
-        #unittest.TestLoader.sortTestMethodsUsing = None
         self.app = create_app()
         self.client = self.app.test_client()
         self.database_name = "Capstone"

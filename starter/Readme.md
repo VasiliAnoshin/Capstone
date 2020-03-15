@@ -39,6 +39,9 @@ python app.py
 ```
 Setting the FLASK_ENV variable to development will detect file changes and restart the server automatically.
 
+## Hosting
+This project has been deployed using Heroku and can be found at this URL:
+
 ## Roles
 #### Casting Assistant
 - Can view actors and movies
