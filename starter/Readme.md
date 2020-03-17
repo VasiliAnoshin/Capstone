@@ -42,8 +42,12 @@ Setting the FLASK_ENV variable to development will detect file changes and resta
 ## Hosting
 This project has been deployed using Heroku and can be found at this URL: https://capstonend.herokuapp.com/
 
-## Roles
+## Identity and Auth
+Recieve Token: 
 https://fsbenfranklin.auth0.com/authorize?audience=Capstone&response_type=token&client_id=lLapC5LQ5Um6fyGxLS8qwDOBwQRMrg3W&redirect_uri=http://localhost:8080/login-results
+Token check: https://jwt.io/
+
+## Roles
 #### Casting Assistant
 - Can view actors and movies
 #### Casting Director
