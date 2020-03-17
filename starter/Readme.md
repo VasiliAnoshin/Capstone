@@ -45,6 +45,7 @@ This project has been deployed using Heroku and can be found at this URL: https:
 ## Identity and Auth
 Recieve Token: 
 https://fsbenfranklin.auth0.com/authorize?audience=Capstone&response_type=token&client_id=lLapC5LQ5Um6fyGxLS8qwDOBwQRMrg3W&redirect_uri=http://localhost:8080/login-results
+
 Token check: https://jwt.io/
 
 ## Roles
